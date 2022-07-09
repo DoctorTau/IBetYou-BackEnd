@@ -11,5 +11,7 @@
     <Content Include="WeatherForecast.cs" />
     <Content Include="Models\User.cs" />
     <Content Include="Models\Bet.cs" />
+    <Content Include="Repositories\UserRepository.cs" />
+    <Content Include="Repositories\BetRepository.cs" />
   </ItemGroup>
 </Project>
