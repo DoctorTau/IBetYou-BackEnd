@@ -16,5 +16,6 @@
     <Content Include="Controllers\WeatherForecastController.cs" />
     <Content Include="Controllers\UserController.cs" />
     <Content Include="Properties\launchSettings.json" />
+    <Content Include="Repositories\UserBetRepository.cs" />
   </ItemGroup>
 </Project>
