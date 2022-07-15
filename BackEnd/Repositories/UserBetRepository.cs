@@ -22,11 +22,11 @@ public class UserBetRepository : IUserBetRepository
 {
     // Private fields.
     private readonly ApplicationDbContext _context;
-    public readonly UserRepository _userRepository;
-    public readonly BetRepository _betRepository;
+    public readonly IUserRepository _userRepository;
+    public readonly IBetRepository _betRepository;
 
     // Public constructor.
-    public UserBetRepository(ApplicationDbContext context, UserRepository userRepository, BetRepository betRepository)
+    public UserBetRepository(ApplicationDbContext context, IUserRepository userRepository, IBetRepository betRepository)
     {
         _context = context;
         _userRepository = userRepository;
@@ -64,4 +64,23 @@ public class UserBetRepository : IUserBetRepository
         bet.Users.Remove(user);
         _context.SaveChanges();
     }
+
+    // Set a winner Id to bet by ids.
+    // Throw argument exception if bet is not closed, user is not participant.
+    public void SetWinnerId(int betId, int userId)
+    {
+        var bet = _betRepository.GetBetById(betId);
+        var user = _userRepository.GetUserById(userId);
+        if (bet.Status != BetStatus.Close)
+        {
+            throw new ArgumentException("Bet is not closed.");
+        }
+        if (!bet.Users.Contains(user))
+        {
+            throw new ArgumentException("User is not participant.");
+        }
+        bet.WinnerId = userId;
+        _context.SaveChanges();
+    }
+
 }
