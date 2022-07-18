@@ -11,6 +11,7 @@ public interface IBetRepository
     void AddBet(Bet bet);
     void UpdateBet(Bet bet);
     void DeleteBet(int id);
+    int GetLastBetId();
 }
 
 // Realization of IBetRepository.
@@ -63,5 +64,10 @@ public class BetRepository : IBetRepository
         {
             throw new ArgumentException("Bet with this id does not exist");
         }
+    }
+
+    public int GetLastBetId()
+    {
+        return bets.Count();
     }
 }

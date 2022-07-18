@@ -33,6 +33,9 @@ public class Bet
     public Bet(int id, string name, string description)
     {
         BetId = id;
+        // Check if name is not empty. Thrown ArgumentException if not.
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException("Name cannot be empty.");
         Name = name;
         Description = description;
         Status = BetStatus.Creating;

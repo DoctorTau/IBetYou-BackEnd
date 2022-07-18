@@ -1,15 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "AoAvJSMr5/c3gwPMr1TwTzPFV97NuC4QYKAD2Naoz43bqWe9iJAZlbaAE9Jxg5UmLLNt0CJQw40iErbVAXZ6vg==",
+  "dgSpecHash": "Z9VNT0pYDW+iVfLFyMRxNMuenZMKFM3Qzz6TH5rak/KEmXCL6OLmkCZrQFoOIWcNxMoSWG+O49366E/pK+DAKA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\drtta\\Documents\\Programming\\IBetYou\\BackEnd\\IBUAPI.csproj",
+  "projectFilePath": "/home/doctor_tau/Programming/IBetYou/BackEnd/IBUAPI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\drtta\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
-    "C:\\Users\\drtta\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\drtta\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
-    "C:\\Users\\drtta\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
-    "C:\\Users\\drtta\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
-    "C:\\Users\\drtta\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+    "/home/doctor_tau/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.6/microsoft.aspnetcore.app.ref.6.0.6.nupkg.sha512"
   ],
   "logs": []
 }

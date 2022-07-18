@@ -17,5 +17,9 @@
     <Content Include="Controllers\UserController.cs" />
     <Content Include="Properties\launchSettings.json" />
     <Content Include="Repositories\UserBetRepository.cs" />
+    <Content Include="Controllers\UserBetController.cs" />
+    <Content Include="Controllers\BetContraller.cs" />
+    <Content Include="Controllers\BetController.cs" />
+    <Content Include="Models\UserBet.cs" />
   </ItemGroup>
 </Project>

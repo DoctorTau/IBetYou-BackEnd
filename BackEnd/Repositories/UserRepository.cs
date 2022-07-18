@@ -8,6 +8,7 @@ public interface IUserRepository
 {
     IEnumerable<User> GetAllUsers();
     User GetUserById(int id);
+    int GetLastUserId();
     void AddUser(User user);
     void UpdateUser(User user);
     void DeleteUser(int id);
@@ -17,6 +18,12 @@ public interface IUserRepository
 public class UserRepository : IUserRepository
 {
     private List<User> users = new List<User>();
+
+    public UserRepository()
+    {
+        users = new List<User>();
+    }
+
     public IEnumerable<User> GetAllUsers()
     {
         return users;
@@ -33,6 +40,10 @@ public class UserRepository : IUserRepository
     {
         users.Add(user);
     }
+
+    // Add user to list of users.
+    // Parameters: UserName, email, password.
+
     public void UpdateUser(User user)
     {
         try
@@ -60,4 +71,11 @@ public class UserRepository : IUserRepository
             throw new ArgumentException("User with this id does not exist");
         }
     }
+
+    // Get last user id.
+    public int GetLastUserId()
+    {
+        return users.Count();
+    }
+
 }
