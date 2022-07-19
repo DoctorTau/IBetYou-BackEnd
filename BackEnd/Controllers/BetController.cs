@@ -46,6 +46,20 @@ public class BetController : ControllerBase
         }
     }
 
+    // Check if bet exists.
+    [HttpGet("Exists/{id}", Name = "BetExists")]
+    public ActionResult<bool> Exists(int id)
+    {
+        try
+        {
+            return Ok(bets.BetExists(id));
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     // Add bet.
     // Parameters: Name, Description.
     [HttpPost]

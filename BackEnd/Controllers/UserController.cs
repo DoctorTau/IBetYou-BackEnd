@@ -57,6 +57,20 @@ public class UserController : ControllerBase
         }
     }
 
+    // Check if user exists.
+    [HttpGet("Exists/{id}")]
+    public ActionResult<bool> Exists(int id)
+    {
+        try
+        {
+            return Ok(users.UserExists(id));
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     // Add user.
     // Parameters: UserName, Email, Password.
     [HttpPost]

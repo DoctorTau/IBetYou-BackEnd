@@ -12,6 +12,7 @@ public interface IUserRepository
     void AddUser(User user);
     void UpdateUser(User user);
     void DeleteUser(int id);
+    bool UserExists(int id);
 }
 
 // Interface realization using List<User>.
@@ -78,4 +79,8 @@ public class UserRepository : IUserRepository
         return users.Count();
     }
 
+    public bool UserExists(int id)
+    {
+        return users.Exists(u => u.Id == id);
+    }
 }

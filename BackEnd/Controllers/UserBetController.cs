@@ -45,8 +45,8 @@ public class UserBetController : ControllerBase
     }
 
     // Add UserBet by user id and bet id.
-    [HttpPost]
-    public ActionResult<UserBet> Post(int userId, int betId)
+    [HttpPost("AddUserToBet/{userId}/{betId}", Name = "AddUserToBet")]
+    public ActionResult<UserBet> AddUserToBet(int userId, int betId)
     {
         try
         {
@@ -60,7 +60,7 @@ public class UserBetController : ControllerBase
     }
 
     // Delete UserBet by user id and bet id.
-    [HttpDelete("{userId}/{betId}")]
+    [HttpDelete("DeleteUserBet/{userId}/{betId}")]
     public ActionResult<UserBet> Delete(int userId, int betId)
     {
         try
