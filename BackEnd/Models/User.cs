@@ -8,11 +8,9 @@ public class User
     public string UserName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public List<int> BetIds { get; set; }
 
     public User()
     {
-        BetIds = new List<int>();
     }
 
     // Constructor by id, username, email, password.
@@ -31,6 +29,5 @@ public class User
         if (password.Length < 6)
             throw new ArgumentException("Password is not correct.");
         Password = password;
-        BetIds = new List<int>();
     }
 }

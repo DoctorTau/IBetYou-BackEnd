@@ -6,7 +6,7 @@ namespace IBUAPI.Controllers;
 
 // UserController class. Contains methods for user management.
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     public readonly IUserRepository users;

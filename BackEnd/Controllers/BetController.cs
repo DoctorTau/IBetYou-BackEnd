@@ -2,11 +2,11 @@ using IBUAPI.Models;
 using IBUAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-using IBUAPI.Controllers;
+namespace IBUAPI.Controllers;
 
 // Bet controller. 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class BetController : ControllerBase
 {
     public readonly IBetRepository bets;
@@ -18,16 +18,9 @@ public class BetController : ControllerBase
         // Fill bets with random bets.
         for (int i = 0; i < 10; i++)
         {
-            this.bets.AddBet(new Bet
-            {
-                Name = "Bet" + i,
-                Description = "Bet description",
-                Status = BetStatus.Open,
-                ParticipantIds = new List<int> { 1, 2, 3 },
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(1),
-                WinnerId = null
-            });
+            this.bets.AddBet(new Bet(i + 1,
+                                     "Bet" + i,
+                                     "Bet description"));
         }
         _logger = logger;
     }
@@ -89,12 +82,40 @@ public class BetController : ControllerBase
 
     // Delete bet.
     [HttpDelete("{id}")]
+    /// <summary>
+    /// Delete bet.
+    /// </summary>
+    /// <param name="id">Id of bet to delete.</param>
+    /// <returns>Status of operation.</returns>
     public ActionResult Delete(int id)
     {
         try
         {
             bets.DeleteBet(id);
             return Ok();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    // Set winner id to bet. 
+    // Parameters: BetId, WinnerId.
+    [HttpPut("{betId}/winner/{winnerId}")]
+    /// <summary>
+    /// Sets winner id to bet and closes the bet.
+    /// </summary>
+    /// <param name="betId"> Bet id.</param>
+    /// <param name="winnerId"> User id.</param>
+    /// <returns> Status of operation result.</returns>
+    public ActionResult<Bet> SetWinner(int betId, int winnerId)
+    {
+        try
+        {
+            Bet betToUpdate = bets.GetBetById(betId);
+            betToUpdate.SetWinner(winnerId);
+            return Ok(betToUpdate);
         }
         catch (ArgumentException ex)
         {

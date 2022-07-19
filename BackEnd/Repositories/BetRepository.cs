@@ -25,7 +25,7 @@ public class BetRepository : IBetRepository
     }
     public Bet GetBetById(int id)
     {
-        Bet? BetToGet = bets.Find(b => b.BetId == id);
+        Bet? BetToGet = bets.Find(b => b.Id == id);
         // Check if bet exists. Thrown ArgumentException if not.
         if (BetToGet == null)
             throw new ArgumentException("Bet with this id does not exist.");
@@ -39,11 +39,10 @@ public class BetRepository : IBetRepository
     {
         try
         {
-            Bet oldBet = GetBetById(bet.BetId);
+            Bet oldBet = GetBetById(bet.Id);
             oldBet.Name = bet.Name;
             oldBet.Description = bet.Description;
             oldBet.Status = bet.Status;
-            oldBet.ParticipantIds = bet.ParticipantIds;
             oldBet.StartDate = bet.StartDate;
             oldBet.EndDate = bet.EndDate;
             oldBet.WinnerId = bet.WinnerId;

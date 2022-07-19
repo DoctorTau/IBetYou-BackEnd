@@ -6,7 +6,7 @@ namespace IBUAPI.Controllers;
 
 // UserBet controller.
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserBetController : ControllerBase
 {
     public readonly IUserBetRepository userBets;
@@ -75,7 +75,7 @@ public class UserBetController : ControllerBase
     }
 
     // Get all users from bet by bet id.
-    [HttpGet("{betId}/users", Name = "GetUsersFromBet")]
+    [HttpGet("{betId}/participants", Name = "GetUsersFromBet")]
     public ActionResult<IEnumerable<User>> GetUsersFromBet(int betId)
     {
         try

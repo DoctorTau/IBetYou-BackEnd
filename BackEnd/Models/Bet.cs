@@ -14,31 +14,35 @@ public enum BetStatus
 // Public properties: BetId, Name, Description, Status, list of participant Ids, nullable StartDate, nullable EndDate, nullable winnerId.
 public class Bet
 {
-    public int BetId { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public BetStatus Status { get; set; } = BetStatus.Creating;
-    public List<int> ParticipantIds { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
     public int? WinnerId { get; set; }
-
-    public Bet()
-    {
-        ParticipantIds = new List<int>();
-    }
 
     // Constructor
     // Parameters: id, name, description.
     public Bet(int id, string name, string description)
     {
-        BetId = id;
+        Id = id;
         // Check if name is not empty. Thrown ArgumentException if not.
         if (string.IsNullOrEmpty(name))
             throw new ArgumentException("Name cannot be empty.");
         Name = name;
         Description = description;
         Status = BetStatus.Creating;
-        ParticipantIds = new List<int>();
+    }
+
+    // Set winner method.
+    // Parameters: winnerId.
+    // Throw Exception if bet status is not Open.
+    public void SetWinner(int winnerId)
+    {
+        if (Status != BetStatus.Open)
+            throw new ArgumentException("Bet is not open.");
+        WinnerId = winnerId;
+        Status = BetStatus.Close;
     }
 }
