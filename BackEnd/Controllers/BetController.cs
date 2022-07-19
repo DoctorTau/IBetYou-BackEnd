@@ -1,5 +1,5 @@
 using IBUAPI.Models;
-using IBUAPI.Repositories;
+using IBUAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IBUAPI.Controllers;
@@ -9,16 +9,16 @@ namespace IBUAPI.Controllers;
 [Route("api/[controller]")]
 public class BetController : ControllerBase
 {
-    public readonly IBetRepository bets;
+    public readonly IBetRepository _bets;
     private readonly ILogger<BetController> _logger;
 
-    public BetController(ILogger<BetController> logger)
+    public BetController(IBetRepository bets, ILogger<BetController> logger)
     {
-        this.bets = new BetRepository();
+        this._bets = bets;
         // Fill bets with random bets.
         for (int i = 0; i < 10; i++)
         {
-            this.bets.AddBet(new Bet(i + 1,
+            this._bets.AddBet(new Bet(i + 1,
                                      "Bet" + i,
                                      "Bet description"));
         }
@@ -29,7 +29,7 @@ public class BetController : ControllerBase
     [HttpGet(Name = "GetAllBets")]
     public ActionResult<IEnumerable<Bet>> Get()
     {
-        return Ok(bets.GetAllBets());
+        return Ok(_bets.GetAllBets());
     }
 
     // Get bet by id.
@@ -38,7 +38,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            return Ok(bets.GetBetById(id));
+            return Ok(_bets.GetBetById(id));
         }
         catch (ArgumentException ex)
         {
@@ -52,7 +52,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            return Ok(bets.BetExists(id));
+            return Ok(_bets.BetExists(id));
         }
         catch (ArgumentException ex)
         {
@@ -67,8 +67,8 @@ public class BetController : ControllerBase
     {
         try
         {
-            Bet betToAdd = new Bet(bets.GetLastBetId(), name, description);
-            bets.AddBet(betToAdd);
+            Bet betToAdd = new Bet(_bets.GetLastBetId(), name, description);
+            _bets.AddBet(betToAdd);
             return CreatedAtRoute("GetBetById", betToAdd);
         }
         catch (Exception ex)
@@ -85,7 +85,7 @@ public class BetController : ControllerBase
         try
         {
             Bet betToUpdate = new Bet(id, name, description);
-            bets.UpdateBet(betToUpdate);
+            _bets.UpdateBet(betToUpdate);
             return Ok(betToUpdate);
         }
         catch (ArgumentException ex)
@@ -105,7 +105,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            bets.DeleteBet(id);
+            _bets.DeleteBet(id);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -127,8 +127,25 @@ public class BetController : ControllerBase
     {
         try
         {
-            Bet betToUpdate = bets.GetBetById(betId);
+            Bet betToUpdate = _bets.GetBetById(betId);
             betToUpdate.SetWinner(winnerId);
+            return Ok(betToUpdate);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    // Start the bet by id.
+    // Parameters: BetId.
+    [HttpPut("{betId}/start")]
+    public ActionResult StartBet(int betId)
+    {
+        try
+        {
+            Bet betToUpdate = _bets.GetBetById(betId);
+            betToUpdate.StartBet();
             return Ok(betToUpdate);
         }
         catch (ArgumentException ex)

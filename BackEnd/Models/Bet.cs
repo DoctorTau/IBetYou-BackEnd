@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace IBUAPI.Models;
 
 // Enum status for bet.
 // Options: Open, Close, Creating, Cancelled.
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum BetStatus
 {
     Open,
@@ -44,5 +47,12 @@ public class Bet
             throw new ArgumentException("Bet is not open.");
         WinnerId = winnerId;
         Status = BetStatus.Close;
+    }
+
+    internal void StartBet()
+    {
+        if (Status != BetStatus.Creating)
+            throw new ArgumentException("Bet is not creating.");
+        Status = BetStatus.Open;
     }
 }

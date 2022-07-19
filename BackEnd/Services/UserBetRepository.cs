@@ -1,34 +1,6 @@
-namespace IBUAPI.Repositories;
-
 using IBUAPI.Models;
 
-public interface IUserBetRepository
-{
-    // Get all UserBets.
-    IEnumerable<UserBet> GetAllUserBets();
-
-    // Get userBet by id. 
-    UserBet GetUserBetById(int id);
-
-    // Get UserBet id by user id and bet id. 
-    int GetUserBetId(int userId, int betId);
-
-    // Add User to bet by ids.
-    void AddUserToBet(int betId, int userId);
-
-    // Confirm UserBet by user id and bet id.
-    void ConfirmUserBet(int userId, int betId);
-
-    // Get all users in bet by bet id.
-    IEnumerable<int> GetAllUsersIdsInBet(int betId);
-
-    // Get all bets of user by user id.
-    IEnumerable<int> GetAllBetsIdsOfUser(int userId);
-
-    // Delete user from bet by ids.
-    void DeleteUserFromBet(int betId, int userId);
-
-}
+namespace IBUAPI.Repositories;
 
 // Public class UserBetRepository implements IUserBetRepository.
 public class UserBetRepository : IUserBetRepository
@@ -88,6 +60,14 @@ public class UserBetRepository : IUserBetRepository
                                                       betId));
         userBet.IsConfirmed = true;
     }
+
+    public bool AllUserBetsConfirmed(int betId)
+    {
+        foreach (UserBet user in userBets.Where(ub => ub.BetId == betId))
+        {
+            if (!user.IsConfirmed)
+                return false;
+        }
+        return true;
+    }
 }
-
-

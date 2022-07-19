@@ -1,5 +1,5 @@
 using IBUAPI.Models;
-using IBUAPI.Repositories;
+using IBUAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IBUAPI.Controllers;
@@ -9,16 +9,16 @@ namespace IBUAPI.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    public readonly IUserRepository users;
+    public readonly IUserRepository _users;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(ILogger<UserController> logger)
+    public UserController(IUserRepository users, ILogger<UserController> logger)
     {
-        users = new UserRepository();
-        // Full users by random users.
+        _users = users;
+        // Fill users by random users.
         for (int i = 0; i < 10; i++)
         {
-            users.AddUser(new User
+            _users.AddUser(new User
             {
                 UserName = "User" + i,
                 Email = "user" + i + "@gmail.com",
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(users.GetAllUsers());
+            return Ok(_users.GetAllUsers());
         }
         catch (Exception ex)
         {
@@ -48,7 +48,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = users.GetUserById(id);
+            var user = _users.GetUserById(id);
             return Ok(user);
         }
         catch (ArgumentException ex)
@@ -63,7 +63,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(users.UserExists(id));
+            return Ok(_users.UserExists(id));
         }
         catch (ArgumentException ex)
         {
@@ -80,8 +80,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            User userToAdd = new User(users.GetLastUserId() + 1, UserName, Email, Password);
-            users.AddUser(userToAdd);
+            User userToAdd = new User(_users.GetLastUserId() + 1, UserName, Email, Password);
+            _users.AddUser(userToAdd);
             return Ok(userToAdd);
         }
         catch (ArgumentException ex)
@@ -101,7 +101,7 @@ public class UserController : ControllerBase
         try
         {
             User userToUpdate = new User(id, UserName, Email, Password);
-            users.UpdateUser(userToUpdate);
+            _users.UpdateUser(userToUpdate);
             return Ok(userToUpdate);
         }
         catch (ArgumentException ex)
@@ -117,7 +117,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            users.DeleteUser(id);
+            _users.DeleteUser(id);
             return Ok();
         }
         catch (ArgumentException ex)

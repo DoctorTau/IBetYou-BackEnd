@@ -11,12 +11,13 @@
     <Content Include="WeatherForecast.cs" />
     <Content Include="Models\User.cs" />
     <Content Include="Models\Bet.cs" />
-    <Content Include="Repositories\UserRepository.cs" />
-    <Content Include="Repositories\BetRepository.cs" />
+    <Content Include="Services\UserRepository.cs" />
+    <Content Include="Services\IBetRepository.cs" />
+    <Content Include="Services\BetRepository.cs" />
     <Content Include="Controllers\WeatherForecastController.cs" />
     <Content Include="Controllers\UserController.cs" />
     <Content Include="Properties\launchSettings.json" />
-    <Content Include="Repositories\UserBetRepository.cs" />
+    <Content Include="Services\UserBetRepository.cs" />
     <Content Include="Controllers\UserBetController.cs" />
     <Content Include="Controllers\BetContraller.cs" />
     <Content Include="Controllers\BetController.cs" />

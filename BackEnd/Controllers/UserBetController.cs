@@ -117,4 +117,18 @@ public class UserBetController : ControllerBase
         }
     }
 
+    // Check if all UserBets of 1 bet are confirmed by bet id.
+    [HttpGet("{betId}/confirmed", Name = "AllUserBetsConfirmed")]
+    public ActionResult<bool> AllUserBetsConfirmed(int betId)
+    {
+        try
+        {
+            return Ok(userBets.AllUserBetsConfirmed(betId));
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }
