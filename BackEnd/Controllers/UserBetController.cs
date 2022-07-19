@@ -44,13 +44,13 @@ public class UserBetController : ControllerBase
         }
     }
 
-    // Add UserBet by user id and bet id.
-    [HttpPost("AddUserToBet/{userId}/{betId}", Name = "AddUserToBet")]
-    public ActionResult<UserBet> AddUserToBet(int userId, int betId)
+    // Add UserBet by bet id and user id.
+    [HttpPost("AddUserToBet/{betId}/{userId}", Name = "AddUserToBet")]
+    public ActionResult<UserBet> AddUserToBet(int betId, int userId)
     {
         try
         {
-            userBets.AddUserToBet(userId, betId);
+            userBets.AddUserToBet(betId, userId);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -59,13 +59,13 @@ public class UserBetController : ControllerBase
         }
     }
 
-    // Delete UserBet by user id and bet id.
-    [HttpDelete("DeleteUserBet/{userId}/{betId}")]
-    public ActionResult<UserBet> Delete(int userId, int betId)
+    // Delete UserBet by id.
+    [HttpDelete("DeleteUserBet/{id}", Name = "DeleteUserBet")]
+    public ActionResult<UserBet> DeleteUserBet(int id)
     {
         try
         {
-            userBets.DeleteUserFromBet(userId, betId);
+            userBets.DeleteUserBet(id);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -103,8 +103,8 @@ public class UserBetController : ControllerBase
     }
 
     // Confirm UserBet by user id and bet id.
-    [HttpPut("{userId}/{betId}/confirm", Name = "ConfirmUserBet")]
-    public ActionResult<UserBet> ConfirmUserBet(int userId, int betId)
+    [HttpPut("{betId}/{userId}/confirm", Name = "ConfirmUserBet")]
+    public ActionResult<UserBet> ConfirmUserBet(int betId, int userId)
     {
         try
         {

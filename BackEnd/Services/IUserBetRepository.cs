@@ -30,5 +30,6 @@ public interface IUserBetRepository
 
     // Checks if all users of one bet confirmed their participants.
     bool AllUserBetsConfirmed(int betId);
+    void DeleteUserBet(int id);
 }
 

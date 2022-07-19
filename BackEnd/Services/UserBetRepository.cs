@@ -70,4 +70,9 @@ public class UserBetRepository : IUserBetRepository
         }
         return true;
     }
+
+    public void DeleteUserBet(int id)
+    {
+        userBets.Remove(GetUserBetById(id));
+    }
 }
