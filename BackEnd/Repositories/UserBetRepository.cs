@@ -10,8 +10,14 @@ public interface IUserBetRepository
     // Get userBet by id. 
     UserBet GetUserBetById(int id);
 
+    // Get UserBet id by user id and bet id. 
+    int GetUserBetId(int userId, int betId);
+
     // Add User to bet by ids.
     void AddUserToBet(int betId, int userId);
+
+    // Confirm UserBet by user id and bet id.
+    void ConfirmUserBet(int userId, int betId);
 
     // Get all users in bet by bet id.
     IEnumerable<int> GetAllUsersIdsInBet(int betId);
@@ -66,6 +72,21 @@ public class UserBetRepository : IUserBetRepository
         if (userBetToDelete == null)
             throw new ArgumentException("There are not connection with this user and bet.");
         userBets.Remove(userBetToDelete);
+    }
+
+    public int GetUserBetId(int userId, int betId)
+    {
+        UserBet? userBet = userBets.Find(ub => ub.UserId == userId && ub.BetId == betId);
+        if (userBet == null)
+            throw new ArgumentException("There are not connection with this user and bet.");
+        return userBet.Id;
+    }
+
+    public void ConfirmUserBet(int userId, int betId)
+    {
+        UserBet userBet = GetUserBetById(GetUserBetId(userId,
+                                                      betId));
+        userBet.IsConfirmed = true;
     }
 }
 

@@ -102,4 +102,19 @@ public class UserBetController : ControllerBase
         }
     }
 
+    // Confirm UserBet by user id and bet id.
+    [HttpPut("{userId}/{betId}/confirm", Name = "ConfirmUserBet")]
+    public ActionResult<UserBet> ConfirmUserBet(int userId, int betId)
+    {
+        try
+        {
+            userBets.ConfirmUserBet(userId, betId);
+            return Ok();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }
