@@ -15,22 +15,12 @@ public class UserController : ControllerBase
     public UserController(IUserRepository users, ILogger<UserController> logger)
     {
         _users = users;
-        // Fill users by random users.
-        for (int i = 0; i < 10; i++)
-        {
-            _users.AddUser(new User
-            {
-                UserName = "User" + i,
-                Email = "user" + i + "@gmail.com",
-                Password = "123456"
-            });
-        }
         _logger = logger;
     }
 
     // Get all users.
-    [HttpGet]
-    public ActionResult<IEnumerable<User>> Get()
+    [HttpGet("GetAllUsers")]
+    public ActionResult<IEnumerable<User>> GetAll()
     {
         try
         {
@@ -43,8 +33,8 @@ public class UserController : ControllerBase
     }
 
     // Get user by id. Return bad request if user does not exist.
-    [HttpGet("{id}")]
-    public ActionResult<User> Get(int id)
+    [HttpGet("GetUser/{id}")]
+    public ActionResult<User> GetById(int id)
     {
         try
         {
@@ -73,7 +63,7 @@ public class UserController : ControllerBase
 
     // Add user.
     // Parameters: UserName, Email, Password.
-    [HttpPost]
+    [HttpPost("AddUser")]
     public ActionResult<User> AddUser(string UserName,
                                    string Email,
                                    string Password)
@@ -82,7 +72,7 @@ public class UserController : ControllerBase
         {
             User userToAdd = new User(_users.GetLastUserId() + 1, UserName, Email, Password);
             _users.AddUser(userToAdd);
-            return Ok(userToAdd);
+            return CreatedAtAction(nameof(GetById), new { id = userToAdd.Id }, userToAdd);
         }
         catch (ArgumentException ex)
         {
@@ -92,7 +82,7 @@ public class UserController : ControllerBase
 
     // Update user.
     // Parameters: UserName, Email, Password.
-    [HttpPut("{id}")]
+    [HttpPut("Update")]
     public ActionResult<User> UpdateUser(int id,
                                         string UserName,
                                         string Email,
@@ -112,7 +102,7 @@ public class UserController : ControllerBase
 
     // Delete user by id.
     // Parameters: id.
-    [HttpDelete("{id}")]
+    [HttpDelete("Delete/{id}")]
     public ActionResult DeleteUser(int id)
     {
         try

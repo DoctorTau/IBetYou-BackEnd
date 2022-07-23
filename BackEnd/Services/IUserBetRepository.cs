@@ -1,4 +1,4 @@
-namespace IBUAPI.Repositories;
+namespace IBUAPI.Services;
 
 using IBUAPI.Models;
 

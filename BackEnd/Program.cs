@@ -14,6 +14,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IBetRepository, BetRepository>();
+builder.Services.AddSingleton<IUserBetRepository, UserBetRepository>();
 
 var app = builder.Build();
 

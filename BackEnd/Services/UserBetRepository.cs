@@ -1,6 +1,6 @@
 using IBUAPI.Models;
 
-namespace IBUAPI.Repositories;
+namespace IBUAPI.Services;
 
 // Public class UserBetRepository implements IUserBetRepository.
 public class UserBetRepository : IUserBetRepository

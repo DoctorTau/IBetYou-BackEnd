@@ -1,5 +1,5 @@
 using IBUAPI.Models;
-using IBUAPI.Repositories;
+using IBUAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IBUAPI.Controllers;
@@ -9,17 +9,19 @@ namespace IBUAPI.Controllers;
 [Route("api/[controller]")]
 public class UserBetController : ControllerBase
 {
-    public readonly IUserBetRepository userBets;
+    public readonly IUserBetRepository _userBets;
+    private IUserRepository _users;
+    private IBetRepository _bets;
     private readonly ILogger<UserBetController> _logger;
 
-    public UserBetController(ILogger<UserBetController> logger)
+    public UserBetController(IUserBetRepository userBets,
+                             IUserRepository users,
+                             IBetRepository bets,
+                             ILogger<UserBetController> logger)
     {
-        this.userBets = new UserBetRepository();
-        // Fill userBets with random userBets.
-        for (int i = 0; i < 10; i++)
-        {
-            this.userBets.AddUserToBet(1, i);
-        }
+        _userBets = userBets;
+        _users = users;
+        _bets = bets;
         _logger = logger;
     }
 
@@ -27,7 +29,7 @@ public class UserBetController : ControllerBase
     [HttpGet(Name = "GetAllUserBets")]
     public ActionResult<IEnumerable<UserBet>> Get()
     {
-        return Ok(userBets.GetAllUserBets());
+        return Ok(_userBets.GetAllUserBets());
     }
 
     // Get by id.
@@ -36,7 +38,7 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            return Ok(userBets.GetUserBetById(id));
+            return Ok(_userBets.GetUserBetById(id));
         }
         catch (ArgumentException ex)
         {
@@ -50,7 +52,9 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            userBets.AddUserToBet(betId, userId);
+            if (!_users.UserExists(userId) || !_bets.BetExists(betId))
+                return BadRequest("User or bet does not exist.");
+            _userBets.AddUserToBet(betId, userId);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -65,7 +69,7 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            userBets.DeleteUserBet(id);
+            _userBets.DeleteUserBet(id);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -80,7 +84,9 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            return Ok(userBets.GetAllUsersIdsInBet(betId));
+            if (!_bets.BetExists(betId))
+                return BadRequest("Bet does not exist.");
+            return Ok(_userBets.GetAllUsersIdsInBet(betId));
         }
         catch (ArgumentException ex)
         {
@@ -94,7 +100,9 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            return Ok(userBets.GetAllBetsIdsOfUser(userId));
+            if (!_users.UserExists(userId))
+                return BadRequest("User does not exist.");
+            return Ok(_userBets.GetAllBetsIdsOfUser(userId));
         }
         catch (ArgumentException ex)
         {
@@ -108,7 +116,9 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            userBets.ConfirmUserBet(userId, betId);
+            if (!_users.UserExists(userId) || !_bets.BetExists(betId))
+                return BadRequest("User or bet does not exist.");
+            _userBets.ConfirmUserBet(userId, betId);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -123,7 +133,7 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            return Ok(userBets.AllUserBetsConfirmed(betId));
+            return Ok(_userBets.AllUserBetsConfirmed(betId));
         }
         catch (ArgumentException ex)
         {
