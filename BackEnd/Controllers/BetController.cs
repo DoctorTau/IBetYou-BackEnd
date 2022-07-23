@@ -1,3 +1,4 @@
+using BackEnd.Models.Dto;
 using IBUAPI.Models;
 using IBUAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ public class BetController : ControllerBase
     // Add bet.
     // Parameters: Name, Description.
     [HttpPost("AddBet")]
-    public ActionResult<Bet> AddBet(PostBetDto bet)
+    public ActionResult<Bet> AddBet(CreatingBetDto bet)
     {
         try
         {

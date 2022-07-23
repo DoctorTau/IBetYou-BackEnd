@@ -1,4 +1,5 @@
 using AutoMapper;
+using BackEnd.Models.Dto;
 using IBUAPI.Models;
 
 namespace BackEnd
@@ -7,7 +8,7 @@ namespace BackEnd
     {
         public AutoMapperProfile()
         {
-            CreateMap<PostBetDto, Bet>();
+            CreateMap<CreatingBetDto, Bet>();
         }
     }
 }

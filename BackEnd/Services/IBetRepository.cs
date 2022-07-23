@@ -1,3 +1,4 @@
+using BackEnd.Models.Dto;
 using IBUAPI.Models;
 
 namespace IBUAPI.Services;
@@ -8,7 +9,7 @@ public interface IBetRepository
 {
     IEnumerable<Bet> GetAllBets();
     Bet GetBetById(int id);
-    void AddBet(PostBetDto bet);
+    void AddBet(CreatingBetDto bet);
     void UpdateBet(Bet bet);
     void DeleteBet(int id);
     int GetLastBetId();

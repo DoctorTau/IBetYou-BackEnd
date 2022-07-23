@@ -1,4 +1,5 @@
 using AutoMapper;
+using BackEnd.Models.Dto;
 using IBUAPI.Models;
 
 namespace IBUAPI.Services;
@@ -33,7 +34,7 @@ public class BetRepository : IBetRepository
         return bets.Exists(b => b.Id == id);
     }
 
-    public void AddBet(PostBetDto bet)
+    public void AddBet(CreatingBetDto bet)
     {
         Bet betToAdd = _mapper.Map<Bet>(bet);
         betToAdd.Id = GetLastBetId() + 1;
