@@ -27,14 +27,14 @@ public class UserBetController : ControllerBase
 
     // Get all userBets.
     [HttpGet(Name = "GetAllUserBets")]
-    public ActionResult<IEnumerable<UserBet>> Get()
+    public ActionResult<IEnumerable<UserBet>> GetAll()
     {
         return Ok(_userBets.GetAllUserBets());
     }
 
     // Get by id.
     [HttpGet("{id}", Name = "GetUserBetById")]
-    public ActionResult<UserBet> Get(int id)
+    public ActionResult<UserBet> GetById(int id)
     {
         try
         {
@@ -55,7 +55,9 @@ public class UserBetController : ControllerBase
             if (!_users.UserExists(userId) || !_bets.BetExists(betId))
                 return BadRequest("User or bet does not exist.");
             _userBets.AddUserToBet(betId, userId);
-            return Ok();
+            return CreatedAtAction(nameof(GetById),
+                                   new { id = _userBets.GetLastId() },
+                                   _userBets.GetUserBetById(_userBets.GetLastId()));
         }
         catch (ArgumentException ex)
         {
@@ -86,7 +88,14 @@ public class UserBetController : ControllerBase
         {
             if (!_bets.BetExists(betId))
                 return BadRequest("Bet does not exist.");
-            return Ok(_userBets.GetAllUsersIdsInBet(betId));
+            var usersIds = _userBets.GetAllUsersIdsInBet(betId);
+            // Get all users with Ids from usersIds.
+            var users = new List<User>();
+            foreach (var userId in usersIds)
+            {
+                users.Add(_users.GetUserById(userId));
+            }
+            return Ok(users);
         }
         catch (ArgumentException ex)
         {
@@ -102,7 +111,14 @@ public class UserBetController : ControllerBase
         {
             if (!_users.UserExists(userId))
                 return BadRequest("User does not exist.");
-            return Ok(_userBets.GetAllBetsIdsOfUser(userId));
+            var betsIds = _userBets.GetAllBetsIdsOfUser(userId);
+            // Get all bets with ids from betsIds.
+            var bets = new List<Bet>();
+            foreach (var betId in betsIds)
+            {
+                bets.Add(_bets.GetBetById(betId));
+            }
+            return Ok(bets);
         }
         catch (ArgumentException ex)
         {

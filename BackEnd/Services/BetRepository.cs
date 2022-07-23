@@ -72,6 +72,6 @@ public class BetRepository : IBetRepository
 
     public int GetLastBetId()
     {
-        return bets.Count();
+        return bets.Count;
     }
 }

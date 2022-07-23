@@ -24,7 +24,10 @@ public class UserBetRepository : IUserBetRepository
     // Add User to bet by ids.
     public void AddUserToBet(int betId, int userId)
     {
-        userBets.Add(new UserBet { BetId = betId, UserId = userId });
+        //Check if user bet is already in list.
+        if (userBets.Find(b => b.BetId == betId && b.UserId == userId) != null)
+            throw new ArgumentException("User is already in this bet.");
+        userBets.Add(new UserBet { Id = GetLastId() + 1, BetId = betId, UserId = userId });
     }
 
     // Get all users in bet by bet id.
@@ -74,5 +77,10 @@ public class UserBetRepository : IUserBetRepository
     public void DeleteUserBet(int id)
     {
         userBets.Remove(GetUserBetById(id));
+    }
+
+    public int GetLastId()
+    {
+        return userBets.Count;
     }
 }

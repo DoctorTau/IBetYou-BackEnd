@@ -63,7 +63,7 @@ public class UserRepository : IUserRepository
     // Get last user id.
     public int GetLastUserId()
     {
-        return users.Count();
+        return users.Count;
     }
 
     public bool UserExists(int id)
