@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/home/doctor_tau/Programming/IBetYou/BackEnd/IBUAPI.csproj": {}
+    "C:\\Users\\drtta\\Documents\\Programming\\IBetYou\\BackEnd\\IBUAPI.csproj": {}
   },
   "projects": {
-    "/home/doctor_tau/Programming/IBetYou/BackEnd/IBUAPI.csproj": {
+    "C:\\Users\\drtta\\Documents\\Programming\\IBetYou\\BackEnd\\IBUAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/doctor_tau/Programming/IBetYou/BackEnd/IBUAPI.csproj",
+        "projectUniqueName": "C:\\Users\\drtta\\Documents\\Programming\\IBetYou\\BackEnd\\IBUAPI.csproj",
         "projectName": "IBUAPI",
-        "projectPath": "/home/doctor_tau/Programming/IBetYou/BackEnd/IBUAPI.csproj",
-        "packagesPath": "/home/doctor_tau/.nuget/packages/",
-        "outputPath": "/home/doctor_tau/Programming/IBetYou/BackEnd/obj/",
+        "projectPath": "C:\\Users\\drtta\\Documents\\Programming\\IBetYou\\BackEnd\\IBUAPI.csproj",
+        "packagesPath": "C:\\Users\\drtta\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\drtta\\Documents\\Programming\\IBetYou\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/doctor_tau/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\drtta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,6 +45,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -53,12 +64,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.6, 6.0.6]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -67,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.106/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300-preview.22154.4\\RuntimeIdentifierGraph.json"
         }
       }
     }

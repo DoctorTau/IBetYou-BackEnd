@@ -22,5 +22,10 @@
     <Content Include="Controllers\BetContraller.cs" />
     <Content Include="Controllers\BetController.cs" />
     <Content Include="Models\UserBet.cs" />
+    <Content Include="Models\BetDto.cs" />
+    <Content Include="Models\BetCreatingDto.cs" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <Content Include="Models\PostBetDto.cs" />
+    <Content Include="AutoMapperProfile.cs" />
   </ItemGroup>
 </Project>

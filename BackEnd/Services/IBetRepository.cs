@@ -8,7 +8,7 @@ public interface IBetRepository
 {
     IEnumerable<Bet> GetAllBets();
     Bet GetBetById(int id);
-    void AddBet(Bet bet);
+    void AddBet(PostBetDto bet);
     void UpdateBet(Bet bet);
     void DeleteBet(int id);
     int GetLastBetId();

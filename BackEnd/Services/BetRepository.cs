@@ -1,3 +1,4 @@
+using AutoMapper;
 using IBUAPI.Models;
 
 namespace IBUAPI.Services;
@@ -7,6 +8,13 @@ namespace IBUAPI.Services;
 public class BetRepository : IBetRepository
 {
     private List<Bet> bets = new List<Bet>();
+    private IMapper _mapper;
+
+    public BetRepository(IMapper mapper)
+    {
+        _mapper = mapper;
+    }
+
     public IEnumerable<Bet> GetAllBets()
     {
         return bets;
@@ -25,9 +33,11 @@ public class BetRepository : IBetRepository
         return bets.Exists(b => b.Id == id);
     }
 
-    public void AddBet(Bet bet)
+    public void AddBet(PostBetDto bet)
     {
-        bets.Add(bet);
+        Bet betToAdd = _mapper.Map<Bet>(bet);
+        betToAdd.Id = GetLastBetId() + 1;
+        bets.Add(betToAdd);
     }
     public void UpdateBet(Bet bet)
     {

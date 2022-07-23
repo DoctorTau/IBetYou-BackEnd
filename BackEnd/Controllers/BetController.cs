@@ -15,26 +15,20 @@ public class BetController : ControllerBase
     public BetController(IBetRepository bets, ILogger<BetController> logger)
     {
         this._bets = bets;
-        // Fill bets with random bets.
-        for (int i = 0; i < 10; i++)
-        {
-            this._bets.AddBet(new Bet(i + 1,
-                                     "Bet" + i,
-                                     "Bet description"));
-        }
+
         _logger = logger;
     }
 
     // Get all bets.
     [HttpGet(Name = "GetAllBets")]
-    public ActionResult<IEnumerable<Bet>> Get()
+    public ActionResult<IEnumerable<Bet>> GetAll()
     {
         return Ok(_bets.GetAllBets());
     }
 
     // Get bet by id.
     [HttpGet("{id}", Name = "GetBetById")]
-    public ActionResult<Bet> Get(int id)
+    public ActionResult<Bet> GetById(int id)
     {
         try
         {
@@ -62,14 +56,15 @@ public class BetController : ControllerBase
 
     // Add bet.
     // Parameters: Name, Description.
-    [HttpPost]
-    public ActionResult<Bet> Post(String name, String description)
+    [HttpPost("AddBet")]
+    public ActionResult<Bet> AddBet(PostBetDto bet)
     {
         try
         {
-            Bet betToAdd = new Bet(_bets.GetLastBetId(), name, description);
-            _bets.AddBet(betToAdd);
-            return CreatedAtRoute("GetBetById", betToAdd);
+            _bets.AddBet(bet);
+            return CreatedAtAction(nameof(GetById),
+                                  new { id = _bets.GetLastBetId() },
+                                  _bets.GetBetById(_bets.GetLastBetId()));
         }
         catch (Exception ex)
         {

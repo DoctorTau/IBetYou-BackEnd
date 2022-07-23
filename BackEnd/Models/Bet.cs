@@ -17,13 +17,18 @@ public enum BetStatus
 // Public properties: BetId, Name, Description, Status, list of participant Ids, nullable StartDate, nullable EndDate, nullable winnerId.
 public class Bet
 {
-    public int Id { get; set; }
+    public int Id { get; set; } = 0;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public BetStatus Status { get; set; } = BetStatus.Creating;
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public int? WinnerId { get; set; }
+    public DateTime? StartDate { get; set; } = null;
+    public DateTime? EndDate { get; set; } = null;
+    public int? WinnerId { get; set; } = null;
+
+    public Bet()
+    {
+
+    }
 
     // Constructor
     // Parameters: id, name, description.
