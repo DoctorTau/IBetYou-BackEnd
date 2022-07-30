@@ -20,6 +20,7 @@ public class Bet
     public int Id { get; set; } = 0;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public List<String> Options { get; set; } = new List<String>();
     public BetStatus Status { get; set; } = BetStatus.Creating;
     public DateTime? StartDate { get; set; } = null;
     public DateTime? EndDate { get; set; } = null;
@@ -32,7 +33,7 @@ public class Bet
 
     // Constructor
     // Parameters: id, name, description.
-    public Bet(int id, string name, string description)
+    public Bet(int id, string name, string description, List<string> options)
     {
         Id = id;
         // Check if name is not empty. Thrown ArgumentException if not.
@@ -40,6 +41,10 @@ public class Bet
             throw new ArgumentException("Name cannot be empty.");
         Name = name;
         Description = description;
+        // Check if there are at least two options. Thrown ArgumentException if not.
+        if (options.Count < 2)
+            throw new ArgumentException("There must be at least two options.");
+        Options = options;
         Status = BetStatus.Creating;
     }
 

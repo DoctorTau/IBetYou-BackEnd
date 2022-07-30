@@ -14,7 +14,7 @@ public interface IUserBetRepository
     int GetUserBetId(int userId, int betId);
 
     // Add User to bet by ids.
-    void AddUserToBet(int betId, int userId);
+    void AddUserToBet(int betId, int userId, int option);
 
     // Confirm UserBet by user id and bet id.
     void ConfirmUserBet(int userId, int betId);

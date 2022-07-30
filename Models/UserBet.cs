@@ -6,5 +6,6 @@ public class UserBet
     public int Id { get; set; }
     public int UserId { get; set; }
     public int BetId { get; set; }
+    public int VoteOption { get; set; }
     public bool IsConfirmed { get; set; } = false;
 }
