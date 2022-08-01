@@ -48,16 +48,20 @@ public class UserBetController : ControllerBase
 
     // Add UserBet by bet id and user id.
     [HttpPost("AddUserToBet", Name = "AddUserToBet")]
-    public ActionResult<UserBet> AddUserToBet(int betId, int userId, int option)
+    public ActionResult<UserBet> AddUserToBet(int betId,
+                                              int userId,
+                                              int option)
     {
         try
         {
             if (!_users.UserExists(userId) || !_bets.BetExists(betId))
                 return BadRequest("User or bet does not exist.");
             // Check if there are option with this number.
-            if (option < 0 || option > _bets.GetBetById(betId).Options.Count())
+            Bet betToUpdate = _bets.GetBetById(betId);
+            if (option < 0 || option > betToUpdate.Options.Count())
                 return BadRequest("Option does not exist.");
             _userBets.AddUserToBet(betId, userId, option);
+            betToUpdate.Options[option].UserId = userId;
             return CreatedAtAction(nameof(GetById),
                                    new { id = _userBets.GetLastId() },
                                    _userBets.GetUserBetById(_userBets.GetLastId()));

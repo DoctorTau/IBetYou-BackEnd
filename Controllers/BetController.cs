@@ -76,7 +76,7 @@ public class BetController : ControllerBase
     // Update bet.
     // Parameters: BetId, Name, Description.
     [HttpPut("UpdateBet/{id}")]
-    public ActionResult<Bet> Put(int id, String name, String description, List<string> options)
+    public ActionResult<Bet> Put(int id, String name, String description, List<Option> options)
     {
         try
         {

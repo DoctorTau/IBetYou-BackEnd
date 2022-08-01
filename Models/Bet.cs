@@ -20,7 +20,7 @@ public class Bet
     public int Id { get; set; } = 0;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public List<String> Options { get; set; } = new List<String>();
+    public List<Option> Options { get; set; } = new List<Option>();
     public BetStatus Status { get; set; } = BetStatus.Creating;
     public DateTime? StartDate { get; set; } = null;
     public DateTime? EndDate { get; set; } = null;
@@ -33,7 +33,10 @@ public class Bet
 
     // Constructor
     // Parameters: id, name, description.
-    public Bet(int id, string name, string description, List<string> options)
+    public Bet(int id,
+               string name,
+               string description,
+               List<Option> options)
     {
         Id = id;
         // Check if name is not empty. Thrown ArgumentException if not.
@@ -63,6 +66,12 @@ public class Bet
     {
         if (Status != BetStatus.Creating)
             throw new ArgumentException("Bet is not creating.");
+        // Check if all options have the participant.
+        foreach (Option option in Options)
+        {
+            if (option.UserId != null)
+                throw new ArgumentException($"Option {option.Title} has no participants.");
+        }
         Status = BetStatus.Open;
     }
 }
