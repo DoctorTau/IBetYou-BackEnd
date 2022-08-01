@@ -39,7 +39,6 @@ public class UserRepository : IUserRepository
             User oldUser = GetUserById(user.Id);
             oldUser.UserName = user.UserName;
             oldUser.Email = user.Email;
-            oldUser.Password = user.Password;
         }
         catch (ArgumentException)
         {

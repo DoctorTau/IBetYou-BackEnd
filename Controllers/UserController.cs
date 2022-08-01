@@ -65,12 +65,11 @@ public class UserController : ControllerBase
     // Parameters: UserName, Email, Password.
     [HttpPost("AddUser")]
     public ActionResult<User> AddUser(string UserName,
-                                   string Email,
-                                   string Password)
+                                   string Email)
     {
         try
         {
-            User userToAdd = new User(_users.GetLastUserId() + 1, UserName, Email, Password);
+            User userToAdd = new User(_users.GetLastUserId() + 1, UserName, Email);
             _users.AddUser(userToAdd);
             return CreatedAtAction(nameof(GetById), new { id = userToAdd.Id }, userToAdd);
         }
@@ -85,12 +84,11 @@ public class UserController : ControllerBase
     [HttpPut("Update")]
     public ActionResult<User> UpdateUser(int id,
                                         string UserName,
-                                        string Email,
-                                        string Password)
+                                        string Email)
     {
         try
         {
-            User userToUpdate = new User(id, UserName, Email, Password);
+            User userToUpdate = new User(id, UserName, Email);
             _users.UpdateUser(userToUpdate);
             return Ok(userToUpdate);
         }
