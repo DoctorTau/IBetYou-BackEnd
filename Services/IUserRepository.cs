@@ -6,12 +6,12 @@ namespace IBUAPI.Services;
 // Methods: GetAllUsers, GetUserById, AddUser, UpdateUser, DeleteUser.
 public interface IUserRepository
 {
-    IEnumerable<User> GetAllUsers();
+    Task<IEnumerable<User>> GetAllUsers();
     User GetUserById(int id);
     int GetLastUserId();
-    void AddUser(User user);
-    void UpdateUser(User user);
-    void DeleteUser(int id);
+    Task AddUserAsync(User user);
+    Task UpdateUserAsync(User user);
+    Task DeleteUserAsync(int id);
     bool UserExists(int id);
 }
 

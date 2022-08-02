@@ -1,44 +1,48 @@
 using IBUAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IBUAPI.Services;
 
 // Interface realization using List<User>.
 public class UserRepository : IUserRepository
 {
-    private List<User> users = new List<User>();
+    private readonly DataContext _context;
 
-    public UserRepository()
+    public UserRepository(DataContext context)
     {
-        users = new List<User>();
+        _context = context;
     }
 
-    public IEnumerable<User> GetAllUsers()
+    public async Task<IEnumerable<User>> GetAllUsers()
     {
-        return users;
+        return await _context.Users.ToListAsync();
     }
     public User GetUserById(int id)
     {
-        User? UserToGet = users.Find(u => u.Id == id);
+        User? UserToGet = _context.Users.FindAsync(id).Result;
         // Check if user exists. Thrown ArgumentException if not.
         if (UserToGet == null)
             throw new ArgumentException("User with this id does not exist.");
         return UserToGet;
     }
-    public void AddUser(User user)
+    public async Task AddUserAsync(User user)
     {
-        users.Add(user);
+        _context.Add(user);
+
+        await _context.SaveChangesAsync();
     }
 
     // Add user to list of users.
     // Parameters: UserName, email, password.
 
-    public void UpdateUser(User user)
+    public async Task UpdateUserAsync(User user)
     {
         try
         {
             User oldUser = GetUserById(user.Id);
             oldUser.UserName = user.UserName;
             oldUser.Email = user.Email;
+            await _context.SaveChangesAsync();
         }
         catch (ArgumentException)
         {
@@ -46,12 +50,13 @@ public class UserRepository : IUserRepository
         }
 
     }
-    public void DeleteUser(int id)
+    public async Task DeleteUserAsync(int id)
     {
         try
         {
             User user = GetUserById(id);
-            users.Remove(user);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
         catch (ArgumentException)
         {
@@ -62,11 +67,11 @@ public class UserRepository : IUserRepository
     // Get last user id.
     public int GetLastUserId()
     {
-        return users.Count;
+        return _context.Users.Max(u => u.Id);
     }
 
     public bool UserExists(int id)
     {
-        return users.Exists(u => u.Id == id);
+        return _context.Users.Contains(GetUserById(id));
     }
 }

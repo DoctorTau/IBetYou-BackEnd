@@ -20,11 +20,11 @@ public class UserController : ControllerBase
 
     // Get all users.
     [HttpGet("GetAllUsers")]
-    public ActionResult<IEnumerable<User>> GetAll()
+    public async Task<ActionResult<IEnumerable<User>>> GetAllAsync()
     {
         try
         {
-            return Ok(_users.GetAllUsers());
+            return Ok(await _users.GetAllUsers());
         }
         catch (Exception ex)
         {
@@ -64,13 +64,13 @@ public class UserController : ControllerBase
     // Add user.
     // Parameters: UserName, Email, Password.
     [HttpPost("AddUser")]
-    public ActionResult<User> AddUser(string UserName,
+    public async Task<ActionResult<User>> AddUserAsync(string UserName,
                                    string Email)
     {
         try
         {
-            User userToAdd = new User(_users.GetLastUserId() + 1, UserName, Email);
-            _users.AddUser(userToAdd);
+            User userToAdd = new User(1, UserName, Email);
+            await _users.AddUserAsync(userToAdd);
             return CreatedAtAction(nameof(GetById), new { id = userToAdd.Id }, userToAdd);
         }
         catch (ArgumentException ex)
@@ -82,14 +82,14 @@ public class UserController : ControllerBase
     // Update user.
     // Parameters: UserName, Email, Password.
     [HttpPut("Update")]
-    public ActionResult<User> UpdateUser(int id,
+    public async Task<ActionResult<User>> UpdateUserAsync(int id,
                                         string UserName,
                                         string Email)
     {
         try
         {
             User userToUpdate = new User(id, UserName, Email);
-            _users.UpdateUser(userToUpdate);
+            await _users.UpdateUserAsync(userToUpdate);
             return Ok(userToUpdate);
         }
         catch (ArgumentException ex)
@@ -101,11 +101,11 @@ public class UserController : ControllerBase
     // Delete user by id.
     // Parameters: id.
     [HttpDelete("Delete/{id}")]
-    public ActionResult DeleteUser(int id)
+    public async Task<ActionResult> DeleteUserAsync(int id)
     {
         try
         {
-            _users.DeleteUser(id);
+            await _users.DeleteUserAsync(id);
             return Ok();
         }
         catch (ArgumentException ex)

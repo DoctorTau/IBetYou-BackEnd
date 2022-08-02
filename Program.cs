@@ -1,5 +1,7 @@
+global using WebApi.Helpers;
+
 using IBUAPI.Services;
-using WebApi.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +15,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-builder.Services.AddDbContext<DataContext>();
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"));
+});
 
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IBetRepository, BetRepository>();
 builder.Services.AddSingleton<IUserBetRepository, UserBetRepository>();
 
