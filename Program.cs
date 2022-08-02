@@ -21,7 +21,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<IBetRepository, BetRepository>();
+builder.Services.AddScoped<IBetRepository, BetRepository>();
 builder.Services.AddSingleton<IUserBetRepository, UserBetRepository>();
 
 var app = builder.Build();

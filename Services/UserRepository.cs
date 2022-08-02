@@ -17,9 +17,9 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.ToListAsync();
     }
-    public User GetUserById(int id)
+    public async Task<User> GetUserByIdAsync(int id)
     {
-        User? UserToGet = _context.Users.FindAsync(id).Result;
+        User? UserToGet = await _context.Users.FindAsync(id);
         // Check if user exists. Thrown ArgumentException if not.
         if (UserToGet == null)
             throw new ArgumentException("User with this id does not exist.");
@@ -39,7 +39,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            User oldUser = GetUserById(user.Id);
+            User oldUser = await GetUserByIdAsync(user.Id);
             oldUser.UserName = user.UserName;
             oldUser.Email = user.Email;
             await _context.SaveChangesAsync();
@@ -54,7 +54,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            User user = GetUserById(id);
+            User user = await GetUserByIdAsync(id);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
@@ -67,11 +67,13 @@ public class UserRepository : IUserRepository
     // Get last user id.
     public int GetLastUserId()
     {
+        if (_context.Users.Count() == 0)
+            return 0;
         return _context.Users.Max(u => u.Id);
     }
 
-    public bool UserExists(int id)
+    public async Task<bool> UserExistsAsync(int id)
     {
-        return _context.Users.Contains(GetUserById(id));
+        return _context.Users.Contains(await GetUserByIdAsync(id));
     }
 }

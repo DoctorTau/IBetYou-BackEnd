@@ -38,7 +38,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = _users.GetUserById(id);
+            var user = _users.GetUserByIdAsync(id);
             return Ok(user);
         }
         catch (ArgumentException ex)
@@ -53,7 +53,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(_users.UserExists(id));
+            return Ok(_users.UserExistsAsync(id));
         }
         catch (ArgumentException ex)
         {
@@ -69,7 +69,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            User userToAdd = new User(1, UserName, Email);
+            User userToAdd = new User(_users.GetLastUserId(), UserName, Email);
             await _users.AddUserAsync(userToAdd);
             return CreatedAtAction(nameof(GetById), new { id = userToAdd.Id }, userToAdd);
         }

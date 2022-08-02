@@ -1,6 +1,7 @@
 using AutoMapper;
 using BackEnd.Models.Dto;
 using IBUAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IBUAPI.Services;
 
@@ -8,61 +9,64 @@ namespace IBUAPI.Services;
 // Using List<Bet> to store bets.
 public class BetRepository : IBetRepository
 {
-    private List<Bet> bets = new List<Bet>();
+    private DataContext _context;
     private IMapper _mapper;
 
-    public BetRepository(IMapper mapper)
+    public BetRepository(DataContext context, IMapper mapper)
     {
+        _context = context;
         _mapper = mapper;
     }
 
-    public IEnumerable<Bet> GetAllBets()
+    public async Task<IEnumerable<Bet>> GetAllBetsAsync()
     {
-        return bets;
+        return await _context.Bets.ToListAsync();
     }
-    public Bet GetBetById(int id)
+    public async Task<Bet> GetBetByIdAsync(int id)
     {
-        Bet? BetToGet = bets.Find(b => b.Id == id);
+        Bet? BetToGet = await _context.Bets.FindAsync(id);
         // Check if bet exists. Thrown ArgumentException if not.
         if (BetToGet == null)
             throw new ArgumentException("Bet with this id does not exist.");
         return BetToGet;
     }
 
-    public bool BetExists(int id)
+    public async Task<bool> BetExistsAsync(int id)
     {
-        return bets.Exists(b => b.Id == id);
+        return _context.Bets.Contains(await GetBetByIdAsync(id));
     }
 
-    public void AddBet(CreatingBetDto bet)
+    public async Task AddBetAsync(CreatingBetDto bet)
     {
         Bet betToAdd = _mapper.Map<Bet>(bet);
         betToAdd.Id = GetLastBetId() + 1;
-        bets.Add(betToAdd);
+        await _context.Bets.AddAsync(betToAdd);
     }
-    public void UpdateBet(Bet bet)
+    public async Task UpdateBetAsync(Bet bet)
     {
         try
         {
-            Bet oldBet = GetBetById(bet.Id);
+            Bet oldBet = await GetBetByIdAsync(bet.Id);
             oldBet.Name = bet.Name;
             oldBet.Description = bet.Description;
             oldBet.Status = bet.Status;
             oldBet.StartDate = bet.StartDate;
             oldBet.EndDate = bet.EndDate;
             oldBet.WinnerId = bet.WinnerId;
+            await _context.SaveChangesAsync();
         }
         catch (ArgumentException)
         {
             throw new ArgumentException("Bet with this id does not exist");
         }
     }
-    public void DeleteBet(int id)
+    public async Task DeleteBetAsync(int id)
     {
         try
         {
-            Bet bet = GetBetById(id);
-            bets.Remove(bet);
+            Bet bet = await GetBetByIdAsync(id);
+            _context.Bets.Remove(bet);
+            await _context.SaveChangesAsync();
         }
         catch (ArgumentException)
         {
@@ -72,6 +76,8 @@ public class BetRepository : IBetRepository
 
     public int GetLastBetId()
     {
-        return bets.Count;
+        if (_context.Bets.Count() == 0)
+            return 0;
+        return _context.Bets.Max(b => b.Id);
     }
 }

@@ -24,7 +24,7 @@ public class BetController : ControllerBase
     [HttpGet(Name = "GetAllBets")]
     public async Task<ActionResult<IEnumerable<Bet>>> GetAll()
     {
-        return Ok(_bets.GetAllBets());
+        return Ok(await _bets.GetAllBetsAsync());
     }
 
     // Get bet by id.
@@ -33,7 +33,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            return Ok(_bets.GetBetById(id));
+            return Ok(await _bets.GetBetByIdAsync(id));
         }
         catch (ArgumentException ex)
         {
@@ -47,7 +47,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            return Ok(_bets.BetExists(id));
+            return Ok(await _bets.BetExistsAsync(id));
         }
         catch (ArgumentException ex)
         {
@@ -62,10 +62,10 @@ public class BetController : ControllerBase
     {
         try
         {
-            _bets.AddBet(bet);
+            await _bets.AddBetAsync(bet);
             return CreatedAtAction(nameof(GetById),
                                   new { id = _bets.GetLastBetId() },
-                                  _bets.GetBetById(_bets.GetLastBetId()));
+                                  _bets.GetBetByIdAsync(_bets.GetLastBetId()));
         }
         catch (Exception ex)
         {
@@ -81,7 +81,7 @@ public class BetController : ControllerBase
         try
         {
             Bet betToUpdate = new Bet(id, name, description, options);
-            _bets.UpdateBet(betToUpdate);
+            await _bets.UpdateBetAsync(betToUpdate);
             return Ok(betToUpdate);
         }
         catch (ArgumentException ex)
@@ -101,7 +101,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            _bets.DeleteBet(id);
+            await _bets.DeleteBetAsync(id);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -123,7 +123,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            Bet betToUpdate = _bets.GetBetById(betId);
+            Bet betToUpdate = await _bets.GetBetByIdAsync(betId);
             betToUpdate.SetWinner(winnerId);
             return Ok(betToUpdate);
         }
@@ -140,7 +140,7 @@ public class BetController : ControllerBase
     {
         try
         {
-            Bet betToUpdate = _bets.GetBetById(betId);
+            Bet betToUpdate = await _bets.GetBetByIdAsync(betId);
             betToUpdate.StartBet();
             return Ok(betToUpdate);
         }

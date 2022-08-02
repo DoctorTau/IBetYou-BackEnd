@@ -7,13 +7,13 @@ namespace IBUAPI.Services;
 // Methods: GetAllBets, GetBetById, AddBet, UpdateBet, DeleteBet.
 public interface IBetRepository
 {
-    IEnumerable<Bet> GetAllBets();
-    Bet GetBetById(int id);
-    void AddBet(CreatingBetDto bet);
-    void UpdateBet(Bet bet);
-    void DeleteBet(int id);
+    Task<IEnumerable<Bet>> GetAllBetsAsync();
+    Task<Bet> GetBetByIdAsync(int id);
+    Task AddBetAsync(CreatingBetDto bet);
+    Task UpdateBetAsync(Bet bet);
+    Task DeleteBetAsync(int id);
     int GetLastBetId();
-    bool BetExists(int id);
+    Task<bool> BetExistsAsync(int id);
 }
 
 

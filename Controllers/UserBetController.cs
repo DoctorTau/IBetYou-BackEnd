@@ -54,10 +54,10 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            if (!_users.UserExists(userId) || !_bets.BetExists(betId))
+            if (!_users.UserExistsAsync(userId) || !_bets.BetExistsAsync(betId))
                 return BadRequest("User or bet does not exist.");
             // Check if there are option with this number.
-            Bet betToUpdate = _bets.GetBetById(betId);
+            Bet betToUpdate = _bets.GetBetByIdAsync(betId);
             if (option < 0 || option > betToUpdate.Options.Count())
                 return BadRequest("Option does not exist.");
             _userBets.AddUserToBet(betId, userId, option);
@@ -93,14 +93,14 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            if (!_bets.BetExists(betId))
+            if (!_bets.BetExistsAsync(betId))
                 return BadRequest("Bet does not exist.");
             var usersIds = _userBets.GetAllUsersIdsInBet(betId);
             // Get all users with Ids from usersIds.
             var users = new List<User>();
             foreach (var userId in usersIds)
             {
-                users.Add(_users.GetUserById(userId));
+                users.Add(_users.GetUserByIdAsync(userId));
             }
             return Ok(users);
         }
@@ -116,14 +116,14 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            if (!_users.UserExists(userId))
+            if (!_users.UserExistsAsync(userId))
                 return BadRequest("User does not exist.");
             var betsIds = _userBets.GetAllBetsIdsOfUser(userId);
             // Get all bets with ids from betsIds.
             var bets = new List<Bet>();
             foreach (var betId in betsIds)
             {
-                bets.Add(_bets.GetBetById(betId));
+                bets.Add(_bets.GetBetByIdAsync(betId));
             }
             return Ok(bets);
         }
@@ -139,7 +139,7 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            if (!_users.UserExists(userId) || !_bets.BetExists(betId))
+            if (!_users.UserExistsAsync(userId) || !_bets.BetExistsAsync(betId))
                 return BadRequest("User or bet does not exist.");
             _userBets.ConfirmUserBet(userId, betId);
             return Ok();
