@@ -22,14 +22,14 @@ public class BetController : ControllerBase
 
     // Get all bets.
     [HttpGet(Name = "GetAllBets")]
-    public ActionResult<IEnumerable<Bet>> GetAll()
+    public async Task<ActionResult<IEnumerable<Bet>>> GetAll()
     {
         return Ok(_bets.GetAllBets());
     }
 
     // Get bet by id.
     [HttpGet("{id}", Name = "GetBetById")]
-    public ActionResult<Bet> GetById(int id)
+    public async Task<ActionResult<Bet>> GetById(int id)
     {
         try
         {
@@ -43,7 +43,7 @@ public class BetController : ControllerBase
 
     // Check if bet exists.
     [HttpGet("Exists/{id}", Name = "BetExists")]
-    public ActionResult<bool> Exists(int id)
+    public async Task<ActionResult<bool>> Exists(int id)
     {
         try
         {
@@ -58,7 +58,7 @@ public class BetController : ControllerBase
     // Add bet.
     // Parameters: Name, Description.
     [HttpPost("AddBet")]
-    public ActionResult<Bet> AddBet(CreatingBetDto bet)
+    public async Task<ActionResult<Bet>> AddBet(CreatingBetDto bet)
     {
         try
         {
@@ -76,7 +76,7 @@ public class BetController : ControllerBase
     // Update bet.
     // Parameters: BetId, Name, Description.
     [HttpPut("UpdateBet/{id}")]
-    public ActionResult<Bet> Put(int id, String name, String description, List<Option> options)
+    public async Task<ActionResult<Bet>> Put(int id, String name, String description, List<Option> options)
     {
         try
         {
@@ -97,7 +97,7 @@ public class BetController : ControllerBase
     /// </summary>
     /// <param name="id">Id of bet to delete.</param>
     /// <returns>Status of operation.</returns>
-    public ActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
         try
         {
@@ -119,7 +119,7 @@ public class BetController : ControllerBase
     /// <param name="betId"> Bet id.</param>
     /// <param name="winnerId"> User id.</param>
     /// <returns> Status of operation result.</returns>
-    public ActionResult<Bet> SetWinner(int betId, int winnerId)
+    public async Task<ActionResult<Bet>> SetWinner(int betId, int winnerId)
     {
         try
         {
@@ -136,7 +136,7 @@ public class BetController : ControllerBase
     // Start the bet by id.
     // Parameters: BetId.
     [HttpPut("{betId}/start")]
-    public ActionResult StartBet(int betId)
+    public async Task<ActionResult> StartBet(int betId)
     {
         try
         {

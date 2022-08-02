@@ -83,3 +83,11 @@ C:/Users/drtta/Documents/Programming/IBetYou/BackEnd/bin/Debug/net6.0/AutoMapper
 /home/doctor_tau/Programming/IBetYou/obj/Debug/net6.0/scopedcss/bundle/IBUAPI.styles.css
 /home/doctor_tau/Programming/IBetYou/obj/Debug/net6.0/IBUAPI.csproj.CopyComplete
 /home/doctor_tau/Programming/IBetYou/obj/Debug/net6.0/IBUAPI.genruntimeconfig.cache
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Humanizer.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.Extensions.Caching.Memory.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Npgsql.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
