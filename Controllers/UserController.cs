@@ -69,7 +69,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            User userToAdd = new User(_users.GetLastUserId(), UserName, Email);
+            User userToAdd = new User(_users.GetLastUserId() + 1, UserName, Email);
             await _users.AddUserAsync(userToAdd);
             return CreatedAtAction(nameof(GetById), new { id = userToAdd.Id }, userToAdd);
         }

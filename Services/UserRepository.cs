@@ -27,7 +27,7 @@ public class UserRepository : IUserRepository
     }
     public async Task AddUserAsync(User user)
     {
-        _context.Add(user);
+        _context.Users.Add(user);
 
         await _context.SaveChangesAsync();
     }

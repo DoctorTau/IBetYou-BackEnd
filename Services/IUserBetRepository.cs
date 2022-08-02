@@ -5,16 +5,16 @@ using IBUAPI.Models;
 public interface IUserBetRepository
 {
     // Get all UserBets.
-    IEnumerable<UserBet> GetAllUserBets();
+    Task<IEnumerable<UserBet>> GetAllUserBetsAsync();
 
     // Get userBet by id. 
-    UserBet GetUserBetById(int id);
+    Task<UserBet> GetUserBetByIdAsync(int id);
 
     // Get UserBet id by user id and bet id. 
     int GetUserBetId(int userId, int betId);
 
     // Add User to bet by ids.
-    void AddUserToBet(int betId, int userId, int option);
+    Task AddUserToBetAsync(int betId, int userId, int option);
 
     // Confirm UserBet by user id and bet id.
     void ConfirmUserBet(int userId, int betId);
@@ -26,11 +26,12 @@ public interface IUserBetRepository
     IEnumerable<int> GetAllBetsIdsOfUser(int userId);
 
     // Delete user from bet by ids.
-    void DeleteUserFromBet(int betId, int userId);
+    Task DeleteUserFromBetAsync(int betId, int userId);
 
     // Checks if all users of one bet confirmed their participants.
     bool AllUserBetsConfirmed(int betId);
-    void DeleteUserBet(int id);
+
+    Task DeleteUserBetAsync(int id);
 
     int GetLastId();
 }

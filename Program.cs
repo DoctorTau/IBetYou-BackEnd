@@ -22,7 +22,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
-builder.Services.AddSingleton<IUserBetRepository, UserBetRepository>();
+builder.Services.AddScoped<IUserBetRepository, UserBetRepository>();
 
 var app = builder.Build();
 

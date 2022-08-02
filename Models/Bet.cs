@@ -20,7 +20,7 @@ public class Bet
     public int Id { get; set; } = 0;
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public List<Option> Options { get; set; } = new List<Option>();
+    public List<string> Options { get; set; } = new List<string>();
     public BetStatus Status { get; set; } = BetStatus.Creating;
     public DateTime? StartDate { get; set; } = null;
     public DateTime? EndDate { get; set; } = null;
@@ -36,7 +36,7 @@ public class Bet
     public Bet(int id,
                string name,
                string description,
-               List<Option> options)
+               List<string> options)
     {
         Id = id;
         // Check if name is not empty. Thrown ArgumentException if not.
@@ -49,29 +49,5 @@ public class Bet
             throw new ArgumentException("There must be at least two options.");
         Options = options;
         Status = BetStatus.Creating;
-    }
-
-    // Set winner method.
-    // Parameters: winnerId.
-    // Throw Exception if bet status is not Open.
-    public void SetWinner(int winnerId)
-    {
-        if (Status != BetStatus.Open)
-            throw new ArgumentException("Bet is not open.");
-        WinnerId = winnerId;
-        Status = BetStatus.Close;
-    }
-
-    internal void StartBet()
-    {
-        if (Status != BetStatus.Creating)
-            throw new ArgumentException("Bet is not creating.");
-        // Check if all options have the participant.
-        foreach (Option option in Options)
-        {
-            if (option.UserId != null)
-                throw new ArgumentException($"Option {option.Title} has no participants.");
-        }
-        Status = BetStatus.Open;
     }
 }

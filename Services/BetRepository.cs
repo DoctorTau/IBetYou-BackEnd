@@ -40,7 +40,8 @@ public class BetRepository : IBetRepository
     {
         Bet betToAdd = _mapper.Map<Bet>(bet);
         betToAdd.Id = GetLastBetId() + 1;
-        await _context.Bets.AddAsync(betToAdd);
+        _context.Bets.Add(betToAdd);
+        await _context.SaveChangesAsync();
     }
     public async Task UpdateBetAsync(Bet bet)
     {
@@ -79,5 +80,26 @@ public class BetRepository : IBetRepository
         if (_context.Bets.Count() == 0)
             return 0;
         return _context.Bets.Max(b => b.Id);
+    }
+
+    public async Task StartBetAsync(int id)
+    {
+        Bet betToStart = await GetBetByIdAsync(id);
+        if (betToStart.Status != BetStatus.Creating)
+            throw new ArgumentException("Bet is not in creating status.");
+        betToStart.Status = BetStatus.Open;
+        betToStart.StartDate = DateTime.Now.ToUniversalTime();
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task SetWinnerAsync(int id, int winnerId)
+    {
+        Bet betToSet = await GetBetByIdAsync(id);
+        if (betToSet.Status != BetStatus.Open)
+            throw new ArgumentException("Bet is not in open status.");
+        betToSet.Status = BetStatus.Close;
+        betToSet.WinnerId = winnerId;
+        betToSet.EndDate = DateTime.Now.ToUniversalTime();
+        await _context.SaveChangesAsync();
     }
 }

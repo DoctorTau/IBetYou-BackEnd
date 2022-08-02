@@ -1,72 +1,87 @@
 using IBUAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IBUAPI.Services;
 
 // Public class UserBetRepository implements IUserBetRepository.
 public class UserBetRepository : IUserBetRepository
 {
-    private List<UserBet> userBets = new List<UserBet>();
+    private DataContext _context;
+
+    public UserBetRepository(DataContext context)
+    {
+        _context = context;
+    }
 
     // Get all userBets.
-    public IEnumerable<UserBet> GetAllUserBets()
+    public async Task<IEnumerable<UserBet>> GetAllUserBetsAsync()
     {
-        return userBets;
+        return await _context.UserBets.ToListAsync();
     }
 
     // Get userBet by id. Throw ArgumentException if not found.
-    public UserBet GetUserBetById(int id)
+    public async Task<UserBet> GetUserBetByIdAsync(int id)
     {
-        UserBet? bet = userBets.Find(b => b.Id == id);
+        UserBet? bet = await _context.UserBets.FindAsync(id);
         if (bet == null) throw new ArgumentException("There is no UserBet with id " + id);
         return bet;
     }
 
     // Add User to bet by ids.
-    public void AddUserToBet(int betId, int userId, int option)
+    public async Task AddUserToBetAsync(int betId, int userId, int option)
     {
         //Check if user bet is already in list.
-        if (userBets.Find(b => b.BetId == betId && b.UserId == userId) != null)
+        if (_context.UserBets.Any(b => b.BetId == betId && b.UserId == userId))
             throw new ArgumentException("User is already in this bet.");
-        userBets.Add(new UserBet { Id = GetLastId() + 1, BetId = betId, UserId = userId, VoteOption = option });
+        _context.UserBets.Add(new UserBet { Id = GetLastId() + 1, BetId = betId, UserId = userId, VoteOption = option });
+        await _context.SaveChangesAsync();
     }
 
     // Get all users in bet by bet id.
     public IEnumerable<int> GetAllUsersIdsInBet(int betId)
     {
-        return userBets.Where(ub => ub.BetId == betId).Select(ub => ub.UserId);
+        return _context.UserBets.Where(ub => ub.BetId == betId).Select(ub => ub.UserId);
     }
     // Get all bets of user by user id.
     public IEnumerable<int> GetAllBetsIdsOfUser(int userId)
     {
-        return userBets.Where(ub => ub.UserId == userId).Select(ub => ub.BetId);
+        return _context.UserBets.Where(ub => ub.UserId == userId).Select(ub => ub.BetId);
     }
     // Delete user from bet by ids.
-    public void DeleteUserFromBet(int betId, int userId)
+    public async Task DeleteUserFromBetAsync(int betId, int userId)
     {
-        UserBet? userBetToDelete = userBets.Find(ub => ub.BetId == betId && ub.UserId == userId);
-        if (userBetToDelete == null)
+        try
+        {
+            UserBet? userBetToDelete = _context.UserBets.Where(ub => ub.BetId == betId && ub.UserId == userId).Single();
+            if (userBetToDelete == null)
+                throw new ArgumentException("There are not connection with this user and bet.");
+            _context.UserBets.Remove(userBetToDelete);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
             throw new ArgumentException("There are not connection with this user and bet.");
-        userBets.Remove(userBetToDelete);
+        }
     }
 
     public int GetUserBetId(int userId, int betId)
     {
-        UserBet? userBet = userBets.Find(ub => ub.UserId == userId && ub.BetId == betId);
+        UserBet? userBet = _context.UserBets.Where(ub => ub.BetId == betId && ub.UserId == userId).Single();
         if (userBet == null)
             throw new ArgumentException("There are not connection with this user and bet.");
         return userBet.Id;
     }
 
-    public void ConfirmUserBet(int userId, int betId)
+    public async void ConfirmUserBet(int userId, int betId)
     {
-        UserBet userBet = GetUserBetById(GetUserBetId(userId,
-                                                      betId));
+        UserBet userBet = await GetUserBetByIdAsync(GetUserBetId(userId, betId));
         userBet.IsConfirmed = true;
+        await _context.SaveChangesAsync();
     }
 
     public bool AllUserBetsConfirmed(int betId)
     {
-        foreach (UserBet user in userBets.Where(ub => ub.BetId == betId))
+        foreach (UserBet user in _context.UserBets.Where(ub => ub.BetId == betId))
         {
             if (!user.IsConfirmed)
                 return false;
@@ -74,13 +89,16 @@ public class UserBetRepository : IUserBetRepository
         return true;
     }
 
-    public void DeleteUserBet(int id)
+    public async Task DeleteUserBetAsync(int id)
     {
-        userBets.Remove(GetUserBetById(id));
+        _context.UserBets.Remove(await GetUserBetByIdAsync(id));
+        await _context.SaveChangesAsync();
     }
 
     public int GetLastId()
     {
-        return userBets.Count;
+        if (_context.UserBets.Count() == 0)
+            return 0;
+        return _context.UserBets.Max(ub => ub.Id);
     }
 }

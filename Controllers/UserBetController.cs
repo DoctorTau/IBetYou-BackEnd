@@ -29,7 +29,7 @@ public class UserBetController : ControllerBase
     [HttpGet(Name = "GetAllUserBets")]
     public ActionResult<IEnumerable<UserBet>> GetAll()
     {
-        return Ok(_userBets.GetAllUserBets());
+        return Ok(_userBets.GetAllUserBetsAsync());
     }
 
     // Get by id.
@@ -38,7 +38,7 @@ public class UserBetController : ControllerBase
     {
         try
         {
-            return Ok(_userBets.GetUserBetById(id));
+            return Ok(_userBets.GetUserBetByIdAsync(id));
         }
         catch (ArgumentException ex)
         {
@@ -48,23 +48,24 @@ public class UserBetController : ControllerBase
 
     // Add UserBet by bet id and user id.
     [HttpPost("AddUserToBet", Name = "AddUserToBet")]
-    public ActionResult<UserBet> AddUserToBet(int betId,
+    public async Task<ActionResult<UserBet>> AddUserToBet(int betId,
                                               int userId,
                                               int option)
     {
         try
         {
-            if (!_users.UserExistsAsync(userId) || !_bets.BetExistsAsync(betId))
+            if (!(await _users.UserExistsAsync(userId)) || !(await _bets.BetExistsAsync(betId)))
                 return BadRequest("User or bet does not exist.");
+
             // Check if there are option with this number.
-            Bet betToUpdate = _bets.GetBetByIdAsync(betId);
+            Bet betToUpdate = await _bets.GetBetByIdAsync(betId);
             if (option < 0 || option > betToUpdate.Options.Count())
                 return BadRequest("Option does not exist.");
-            _userBets.AddUserToBet(betId, userId, option);
-            betToUpdate.Options[option].UserId = userId;
+
+            await _userBets.AddUserToBetAsync(betId, userId, option);
             return CreatedAtAction(nameof(GetById),
                                    new { id = _userBets.GetLastId() },
-                                   _userBets.GetUserBetById(_userBets.GetLastId()));
+                                   await _userBets.GetUserBetByIdAsync(_userBets.GetLastId()));
         }
         catch (ArgumentException ex)
         {
@@ -74,11 +75,11 @@ public class UserBetController : ControllerBase
 
     // Delete UserBet by id.
     [HttpDelete("DeleteUserBet/{id}", Name = "DeleteUserBet")]
-    public ActionResult<UserBet> DeleteUserBet(int id)
+    public async Task<ActionResult<UserBet>> DeleteUserBetAsync(int id)
     {
         try
         {
-            _userBets.DeleteUserBet(id);
+            await _userBets.DeleteUserBetAsync(id);
             return Ok();
         }
         catch (ArgumentException ex)
@@ -89,18 +90,19 @@ public class UserBetController : ControllerBase
 
     // Get all users from bet by bet id.
     [HttpGet("{betId}/participants", Name = "GetUsersFromBet")]
-    public ActionResult<IEnumerable<User>> GetUsersFromBet(int betId)
+    public async Task<ActionResult<IEnumerable<User>>> GetUsersFromBetAsync(int betId)
     {
         try
         {
-            if (!_bets.BetExistsAsync(betId))
+            if (!(await _bets.BetExistsAsync(betId)))
                 return BadRequest("Bet does not exist.");
             var usersIds = _userBets.GetAllUsersIdsInBet(betId);
+
             // Get all users with Ids from usersIds.
             var users = new List<User>();
             foreach (var userId in usersIds)
             {
-                users.Add(_users.GetUserByIdAsync(userId));
+                users.Add(await _users.GetUserByIdAsync(userId));
             }
             return Ok(users);
         }
@@ -112,18 +114,18 @@ public class UserBetController : ControllerBase
 
     // Get all bets from user by user id.
     [HttpGet("{userId}/bets", Name = "GetBetsFromUser")]
-    public ActionResult<IEnumerable<Bet>> GetBetsFromUser(int userId)
+    public async Task<ActionResult<IEnumerable<Bet>>> GetBetsFromUserAsync(int userId)
     {
         try
         {
-            if (!_users.UserExistsAsync(userId))
+            if (!(await _users.UserExistsAsync(userId)))
                 return BadRequest("User does not exist.");
             var betsIds = _userBets.GetAllBetsIdsOfUser(userId);
             // Get all bets with ids from betsIds.
             var bets = new List<Bet>();
             foreach (var betId in betsIds)
             {
-                bets.Add(_bets.GetBetByIdAsync(betId));
+                bets.Add(await _bets.GetBetByIdAsync(betId));
             }
             return Ok(bets);
         }
@@ -135,11 +137,12 @@ public class UserBetController : ControllerBase
 
     // Confirm UserBet by user id and bet id.
     [HttpPut("{betId}/{userId}/confirm", Name = "ConfirmUserBet")]
-    public ActionResult<UserBet> ConfirmUserBet(int betId, int userId)
+    public async Task<ActionResult<UserBet>> ConfirmUserBetAsync(int betId, int userId)
     {
         try
         {
-            if (!_users.UserExistsAsync(userId) || !_bets.BetExistsAsync(betId))
+            if (!(await _users.UserExistsAsync(userId))
+                || !(await _bets.BetExistsAsync(betId)))
                 return BadRequest("User or bet does not exist.");
             _userBets.ConfirmUserBet(userId, betId);
             return Ok();

@@ -76,7 +76,10 @@ public class BetController : ControllerBase
     // Update bet.
     // Parameters: BetId, Name, Description.
     [HttpPut("UpdateBet/{id}")]
-    public async Task<ActionResult<Bet>> Put(int id, String name, String description, List<Option> options)
+    public async Task<ActionResult<Bet>> Put(int id,
+                                             String name,
+                                             String description,
+                                             List<string> options)
     {
         try
         {
@@ -123,9 +126,8 @@ public class BetController : ControllerBase
     {
         try
         {
-            Bet betToUpdate = await _bets.GetBetByIdAsync(betId);
-            betToUpdate.SetWinner(winnerId);
-            return Ok(betToUpdate);
+            await _bets.SetWinnerAsync(betId, winnerId);
+            return Ok(await _bets.GetBetByIdAsync(betId));
         }
         catch (ArgumentException ex)
         {
@@ -140,9 +142,8 @@ public class BetController : ControllerBase
     {
         try
         {
-            Bet betToUpdate = await _bets.GetBetByIdAsync(betId);
-            betToUpdate.StartBet();
-            return Ok(betToUpdate);
+            await _bets.StartBetAsync(betId);
+            return Ok(await _bets.GetBetByIdAsync(betId));
         }
         catch (ArgumentException ex)
         {
