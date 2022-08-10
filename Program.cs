@@ -23,6 +23,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
 builder.Services.AddScoped<IUserBetRepository, UserBetRepository>();
+builder.Services.AddScoped<IUserRegistration, UserRegistrationService>();
 
 var app = builder.Build();
 

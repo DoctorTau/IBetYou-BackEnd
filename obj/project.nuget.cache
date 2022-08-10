@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0v/AqGqpzJnhWNG9PFPIlDenfrNhZWQmQmv3LVdzlQU1RTEfCe2swb58Z7yanzcET0RHqhy3uqvmH1gYaZKQJw==",
+  "dgSpecHash": "7ZllmBvfYGV2em2yFMbT+hxkC3Qdo1uq6xsUcEIz+E+w8MPL3nDvRmUxObm1wmGoIuIwVsavQEIeUAPq/X+R8Q==",
   "success": true,
   "projectFilePath": "/home/doctor_tau/Programming/IBetYou/IBUAPI.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,10 @@
     "/home/doctor_tau/.nuget/packages/microsoft.extensions.logging.abstractions/6.0.0/microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.identitymodel.abstractions/6.22.0/microsoft.identitymodel.abstractions.6.22.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.identitymodel.jsonwebtokens/6.22.0/microsoft.identitymodel.jsonwebtokens.6.22.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.identitymodel.logging/6.22.0/microsoft.identitymodel.logging.6.22.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.identitymodel.tokens/6.22.0/microsoft.identitymodel.tokens.6.22.0.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/npgsql/6.0.5/npgsql.6.0.5.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/npgsql.entityframeworkcore.postgresql/6.0.5/npgsql.entityframeworkcore.postgresql.6.0.5.nupkg.sha512",
@@ -32,8 +36,10 @@
     "/home/doctor_tau/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/system.collections.immutable/6.0.0/system.collections.immutable.6.0.0.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/system.diagnostics.diagnosticsource/6.0.0/system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/system.identitymodel.tokens.jwt/6.22.0/system.identitymodel.tokens.jwt.6.22.0.nupkg.sha512",
     "/home/doctor_tau/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
-    "/home/doctor_tau/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.6/microsoft.aspnetcore.app.ref.6.0.6.nupkg.sha512"
+    "/home/doctor_tau/.nuget/packages/system.security.cryptography.cng/4.5.0/system.security.cryptography.cng.4.5.0.nupkg.sha512",
+    "/home/doctor_tau/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.7/microsoft.aspnetcore.app.ref.6.0.7.nupkg.sha512"
   ],
   "logs": []
 }

@@ -91,3 +91,8 @@ C:/Users/drtta/Documents/Programming/IBetYou/BackEnd/bin/Debug/net6.0/AutoMapper
 /home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.Extensions.Caching.Memory.dll
 /home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Npgsql.dll
 /home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+/home/doctor_tau/Programming/IBetYou/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
