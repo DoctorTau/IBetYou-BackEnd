@@ -27,18 +27,18 @@ public class UserBetController : ControllerBase
 
     // Get all userBets.
     [HttpGet(Name = "GetAllUserBets")]
-    public ActionResult<IEnumerable<UserBet>> GetAll()
+    public async Task<ActionResult<IEnumerable<UserBet>>> GetAllAsync()
     {
-        return Ok(_userBets.GetAllUserBetsAsync());
+        return Ok(await _userBets.GetAllUserBetsAsync());
     }
 
     // Get by id.
     [HttpGet("{id}", Name = "GetUserBetById")]
-    public ActionResult<UserBet> GetById(int id)
+    public async Task<ActionResult<UserBet>> GetByIdAsync(int id)
     {
         try
         {
-            return Ok(_userBets.GetUserBetByIdAsync(id));
+            return Ok(await _userBets.GetUserBetByIdAsync(id));
         }
         catch (ArgumentException ex)
         {
@@ -63,7 +63,7 @@ public class UserBetController : ControllerBase
                 return BadRequest("Option does not exist.");
 
             await _userBets.AddUserToBetAsync(betId, userId, option);
-            return CreatedAtAction(nameof(GetById),
+            return CreatedAtAction(nameof(GetByIdAsync),
                                    new { id = _userBets.GetLastId() },
                                    await _userBets.GetUserBetByIdAsync(_userBets.GetLastId()));
         }

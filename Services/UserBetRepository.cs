@@ -40,12 +40,15 @@ public class UserBetRepository : IUserBetRepository
     // Get all users in bet by bet id.
     public IEnumerable<int> GetAllUsersIdsInBet(int betId)
     {
-        return _context.UserBets.Where(ub => ub.BetId == betId).Select(ub => ub.UserId);
+        return _context.UserBets.Where(ub => ub.BetId
+        == betId).Select(ub => ub.UserId).ToList();
     }
     // Get all bets of user by user id.
     public IEnumerable<int> GetAllBetsIdsOfUser(int userId)
     {
-        return _context.UserBets.Where(ub => ub.UserId == userId).Select(ub => ub.BetId);
+        return _context.UserBets.Where(ub => ub.UserId == userId)
+            .Select(ub => ub.BetId)
+            .ToList();
     }
     // Delete user from bet by ids.
     public async Task DeleteUserFromBetAsync(int betId, int userId)
