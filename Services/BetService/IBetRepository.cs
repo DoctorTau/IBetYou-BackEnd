@@ -1,4 +1,4 @@
-using BackEnd.Models.Dto;
+using IBUAPI.Models.Dto;
 using IBUAPI.Models;
 
 namespace IBUAPI.Services;
@@ -7,8 +7,8 @@ namespace IBUAPI.Services;
 // Methods: GetAllBets, GetBetById, AddBet, UpdateBet, DeleteBet.
 public interface IBetRepository
 {
-    Task<IEnumerable<Bet>> GetAllBetsAsync();
-    Task<Bet> GetBetByIdAsync(int id);
+    Task<IEnumerable<GetBetDto>> GetAllBetsAsync();
+    Task<GetBetDto> GetBetByIdAsync(int id);
     Task AddBetAsync(CreatingBetDto bet);
     Task UpdateBetAsync(Bet bet);
     Task StartBetAsync(int id);

@@ -1,5 +1,5 @@
 using AutoMapper;
-using BackEnd.Models.Dto;
+using IBUAPI.Models.Dto;
 using IBUAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,17 +18,41 @@ public class BetRepository : IBetRepository
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Bet>> GetAllBetsAsync()
+    public async Task<IEnumerable<GetBetDto>> GetAllBetsAsync()
     {
-        return await _context.Bets.ToListAsync();
+        var listOfBets = await _context.Bets.ToListAsync();
+        var listOfBetDto = new List<GetBetDto>();
+        foreach (var bet in listOfBets)
+        {
+            GetBetDto item = _mapper.Map<GetBetDto>(bet);
+            // Get users id of item id from UserBet.
+            List<GetUserDto> listOfUsers = await GetUsersByBet(item);
+            item.Participants = listOfUsers;
+            listOfBetDto.Add(item);
+        }
+        return listOfBetDto;
     }
-    public async Task<Bet> GetBetByIdAsync(int id)
+
+    private async Task<List<GetUserDto>> GetUsersByBet(GetBetDto item)
+    {
+        var listOfUserIds = await _context.UserBets.Where(x => x.BetId == item.Id)
+                        .Select(x => x.UserId)
+                        .ToListAsync();
+        // Get users of item id from User.
+        var listOfUsers = _mapper.Map<List<GetUserDto>>(await _context.Users.Where(x => listOfUserIds.Contains(x.Id))
+                                                                            .ToListAsync());
+        return listOfUsers;
+    }
+
+    public async Task<GetBetDto> GetBetByIdAsync(int id)
     {
         Bet? BetToGet = await _context.Bets.FindAsync(id);
         // Check if bet exists. Thrown ArgumentException if not.
         if (BetToGet == null)
             throw new ArgumentException("Bet with this id does not exist.");
-        return BetToGet;
+        GetBetDto getBetDto = _mapper.Map<GetBetDto>(BetToGet);
+        getBetDto.Participants = await GetUsersByBet(getBetDto);
+        return getBetDto;
     }
 
     public async Task<bool> BetExistsAsync(int id)

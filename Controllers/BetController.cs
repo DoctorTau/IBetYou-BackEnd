@@ -1,4 +1,4 @@
-using BackEnd.Models.Dto;
+using IBUAPI.Models.Dto;
 using IBUAPI.Models;
 using IBUAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,14 +22,14 @@ public class BetController : ControllerBase
 
     // Get all bets.
     [HttpGet(Name = "GetAllBets")]
-    public async Task<ActionResult<IEnumerable<Bet>>> GetAll()
+    public async Task<ActionResult<IEnumerable<GetBetDto>>> GetAll()
     {
         return Ok(await _bets.GetAllBetsAsync());
     }
 
     // Get bet by id.
     [HttpGet("{id}", Name = "GetBetById")]
-    public async Task<ActionResult<Bet>> GetById(int id)
+    public async Task<ActionResult<GetBetDto>> GetById(int id)
     {
         try
         {

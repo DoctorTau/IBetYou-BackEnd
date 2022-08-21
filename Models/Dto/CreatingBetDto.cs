@@ -1,6 +1,6 @@
 using IBUAPI.Models;
 
-namespace BackEnd.Models.Dto;
+namespace IBUAPI.Models.Dto;
 
 public class CreatingBetDto
 {
