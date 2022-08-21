@@ -71,6 +71,7 @@ public class UserRegistrationService : IUserRegistration
     {
         List<Claim> claims = new List<Claim> {
             new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email)
         };
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("JwtKey").Value));
